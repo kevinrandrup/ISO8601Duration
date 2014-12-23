@@ -40,7 +40,7 @@ extension NSDateComponents {
     //Note: Does not handle decimal values or overflow values
     
     //Format: PnYnMnDTnHnMnS or PnW
-    class func durationFrom8601String(durationString: String) -> NSDateComponents? {
+    class func durationFrom8601String(durationString: String) -> NSDateComponents {
         let timeDesignator = NSCharacterSet(charactersInString:"HMS")
         let periodDesignator = NSCharacterSet(charactersInString:"YMD")
         
@@ -50,7 +50,7 @@ extension NSDateComponents {
         let pRange = mutableDurationString.rangeOfString("P")
         if pRange.location == NSNotFound {
             self.logErrorMessage(durationString)
-            return nil;
+            return dateComponents;
         } else {
             mutableDurationString.deleteCharactersInRange(pRange)
         }
