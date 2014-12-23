@@ -11,7 +11,7 @@ Ex. P10W = 70 days
 For more information look here http://en.wikipedia.org/wiki/ISO_8601#Durations  
 WARNING: The specification allows decimal values which this category does not support. Pull requests are welcome.  
 
-Usage
+Basic Usage
 =====
 Objective-C  
 ```Objective-C
@@ -23,4 +23,22 @@ Swift
 ```Swift
 var durationString = "P3Y6M4DT12H30M5S"
 var components = NSDateComponents.durationFrom8601String(durationString)
+```
+
+Commmon Usage (start date and duration provided instead of start date and end date)
+============
+Objective-C
+```Objective-C
+NSDate *startDate = [NSDate date];
+NSString *durationString = @"P3Y6M4DT12H30M5S";
+NSDateComponents *components = [NSDateComponents durationFrom8601String:durationString];
+NSDate *endDate = [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:startDate options:0];
+```
+Swift  
+```Swift
+var startDate = NSDate()
+var durationString = "P3Y6M4DT12H30M5S"
+var components = NSDateComponents.durationFrom8601String(durationString)        
+var endDate = NSCalendar.currentCalendar().dateByAddingComponents(components, toDate: startDate, options: nil)
+
 ```
