@@ -27,7 +27,7 @@
 #import <Foundation/Foundation.h>
 
 /*
- * This category converts ISO 8601 duration strings with the Format: P[n]Y[n]M[n]DT[n]H[n]M[n]S or P[n]W into date components.
+ * This category converts ISO 8601 duration strings with the format: P[n]Y[n]M[n]DT[n]H[n]M[n]S or P[n]W into date components.
  * Ex. PT12H = 12 hours
  * Ex. P3D = 3 days
  * Ex. P3DT12H = 3 days, 12 hours
