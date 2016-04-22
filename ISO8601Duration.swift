@@ -116,7 +116,7 @@ extension NSDateComponents {
         designatorValues.removeObject("")
         if componentValues.count == designatorValues.count {
             var dictionary = Dictionary<String, String>(minimumCapacity: componentValues.count)
-            for i in 0...componentValues.count {
+            for i in 0...componentValues.count-1 {
                 let key = designatorValues[i] as! String
                 let value = componentValues[i] as! String
                 dictionary[key] = value
