@@ -44,8 +44,8 @@ extension NSDateComponents {
         let timeDesignator = NSCharacterSet(charactersInString:"HMS")
         let periodDesignator = NSCharacterSet(charactersInString:"YMD")
         
-        var dateComponents = NSDateComponents()
-        var mutableDurationString = durationString.mutableCopy() as NSMutableString
+        let dateComponents = NSDateComponents()
+        let mutableDurationString = durationString.mutableCopy() as! NSMutableString
         
         let pRange = mutableDurationString.rangeOfString("P")
         if pRange.location == NSNotFound {
@@ -57,8 +57,8 @@ extension NSDateComponents {
         
         
         if (durationString.rangeOfString("W") != nil) {
-            var weekValues = componentsForString(mutableDurationString, designatorSet: NSCharacterSet(charactersInString: "W"))
-            var weekValue: NSString? = weekValues["W"]
+            var weekValues = componentsForString(mutableDurationString as String, designatorSet: NSCharacterSet(charactersInString: "W"))
+            let weekValue: NSString? = weekValues["W"]
             if (weekValue != nil) {
                  //7 day week specified in ISO 8601 standard
                 dateComponents.day = Int(weekValue!.doubleValue * 7.0)
@@ -70,7 +70,7 @@ extension NSDateComponents {
         var periodString = ""
         var timeString = ""
         if tRange.location == NSNotFound {
-            periodString = mutableDurationString
+            periodString = mutableDurationString as String
             
         } else {
             periodString = mutableDurationString.substringToIndex(tRange.location)
@@ -78,9 +78,9 @@ extension NSDateComponents {
         }
         
         //DnMnYn
-        var periodValues = componentsForString(periodString, designatorSet: periodDesignator)
+        let periodValues = componentsForString(periodString, designatorSet: periodDesignator)
         for (key, obj) in periodValues {
-            var value = (obj as NSString).integerValue
+            let value = (obj as NSString).integerValue
             if key == "D" {
                 dateComponents.day = value
             } else if key == "M" {
@@ -91,9 +91,9 @@ extension NSDateComponents {
         }
         
         //SnMnHn
-        var timeValues = componentsForString(timeString, designatorSet: timeDesignator)
+        let timeValues = componentsForString(timeString, designatorSet: timeDesignator)
         for (key, obj) in timeValues {
-            var value = (obj as NSString).integerValue
+            let value = (obj as NSString).integerValue
             if key == "S" {
                 dateComponents.second = value
             } else if key == "M" {
@@ -106,32 +106,30 @@ extension NSDateComponents {
     }
     
     class func componentsForString(string: String, designatorSet: NSCharacterSet) -> Dictionary<String, String> {
-        var str = string as NSString
-        if countElements(string) == 0 {
+        if string.characters.count == 0 {
             return Dictionary()
         }
         let numericalSet = NSCharacterSet.decimalDigitCharacterSet()
-        string.componentsSeparatedByCharactersInSet(designatorSet)
-        var componentValues = (string.componentsSeparatedByCharactersInSet(designatorSet) as NSArray).mutableCopy() as NSMutableArray
-        var designatorValues = (string.componentsSeparatedByCharactersInSet(numericalSet) as NSArray).mutableCopy() as NSMutableArray
+        let componentValues = (string.componentsSeparatedByCharactersInSet(designatorSet) as NSArray).mutableCopy() as! NSMutableArray
+        let designatorValues = (string.componentsSeparatedByCharactersInSet(numericalSet) as NSArray).mutableCopy() as! NSMutableArray
         componentValues.removeObject("")
         designatorValues.removeObject("")
         if componentValues.count == designatorValues.count {
             var dictionary = Dictionary<String, String>(minimumCapacity: componentValues.count)
-            for (var i = 0; i < componentValues.count; i++) {
-                var key = designatorValues[i] as String
-                var value = componentValues[i] as String
+            for i in 0...componentValues.count-1 {
+                let key = designatorValues[i] as! String
+                let value = componentValues[i] as! String
                 dictionary[key] = value
             }
             return dictionary
         } else {
-            println("String: \(string) has an invalid formal.")
+            print("String: \(string) has an invalid formal.")
         }
         return Dictionary()
     }
     
     class func logErrorMessage(durationString: String) {
-        println("String: \(durationString) has an invalid format.")
-        println("The durationString must have a format of PnYnMnDTnHnMnS or PnW.")
+        print("String: \(durationString) has an invalid format.")
+        print("The durationString must have a format of PnYnMnDTnHnMnS or PnW.")
     }
 }
